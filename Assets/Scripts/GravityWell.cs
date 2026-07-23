@@ -30,15 +30,17 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
         {
             if (active)
             {
-                //Pull
-                float distance = Vector2.Distance(transform.position, spaceship.transform.position);
                 Vector2 direction = transform.position - spaceship.transform.position;
-                spaceship.AddForceToShip(direction.normalized * pullForce * (pullRadius / distance));
-
                 //Rotate to center
                 Quaternion targetRotation = Quaternion.FromToRotation(spaceship.transform.up, -direction.normalized) * spaceship.transform.rotation;
-                spaceship.RotateShip(Quaternion.Slerp(spaceship.transform.rotation, targetRotation, Time.deltaTime * 2f // rotation speed
-                ));
+                spaceship.RotateShip(targetRotation);
+                if (!spaceship.isDocked)
+                {
+                    //Pull
+                    float distance = Vector2.Distance(transform.position, spaceship.transform.position);
+                    spaceship.AddForceToShip(direction.normalized * pullForce * (pullRadius / distance));
+                }
+
             }
 
         }
@@ -59,16 +61,18 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<Spaceship>() == true)
+        if (other.GetComponent<Spaceship>() == true)
         {
-            spaceship = other.GetComponentInParent<Spaceship>();
-
+        print(other.transform);
+            spaceship = other.GetComponent<Spaceship>();
+            spaceship.wellCount++;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponentInParent<Spaceship>() == true)
+        if (other.GetComponent<Spaceship>() == true)
         {
+            spaceship.wellCount--;
             spaceship = null;
 
         }
