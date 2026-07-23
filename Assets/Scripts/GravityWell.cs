@@ -2,47 +2,100 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GravityWell : MonoBehaviour
+public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
 {
-    [SerializeField] private float pullForce = 10f;
-    private Rigidbody spaceshipRB;
+    private Spaceship spaceship;
     private SphereCollider myCollider;
-    private float radius;
+
+    [SerializeField] private float pullForce = 10f;
+    [SerializeField] private float pullRadius;
+
+    private bool active = true;
+    [SerializeField] private float timeInactive;
+    [SerializeField] private float timeActive;
+
+
     private void Start()
     {
         myCollider = GetComponent<SphereCollider>();
-        radius = myCollider.radius;
+        myCollider.radius = pullRadius;
+
+        active = true;
+        if (timeInactive != 0) StartCoroutine(GravityEffect());
     }
-    void Update()
+
+    void FixedUpdate()
     {
-        if (spaceshipRB != null)
+        if (spaceship != null)
         {
-            float distance = Vector2.Distance(transform.position, spaceshipRB.transform.position);
-            Vector2 direction = transform.position - spaceshipRB.transform.position;
-            spaceshipRB.AddForce(direction.normalized * pullForce * (radius / distance));
+            if (active)
+            {
+                //Pull
+                float distance = Vector2.Distance(transform.position, spaceship.transform.position);
+                Vector2 direction = transform.position - spaceship.transform.position;
+                spaceship.AddForceToShip(direction.normalized * pullForce * (pullRadius / distance));
 
-            Quaternion targetRotation = Quaternion.FromToRotation(spaceshipRB.transform.up,-direction.normalized) * spaceshipRB.rotation;
+                //Rotate to center
+                Quaternion targetRotation = Quaternion.FromToRotation(spaceship.transform.up, -direction.normalized) * spaceship.transform.rotation;
+                spaceship.RotateShip(Quaternion.Slerp(spaceship.transform.rotation, targetRotation, Time.deltaTime * 2f // rotation speed
+                ));
+            }
 
-            spaceshipRB.MoveRotation(Quaternion.Slerp(spaceshipRB.rotation,targetRotation,Time.deltaTime * 2f // rotation speed
-            ));
         }
     }
+
+    private IEnumerator GravityEffect()
+    {
+        while (true)
+        {
+            active = false;
+            yield return new WaitForSeconds(timeInactive);
+
+            active = true;
+            yield return new WaitForSeconds(timeActive);
+
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Spaceship>() == true)
+        if (other.GetComponentInParent<Spaceship>() == true)
         {
-            print("lol");
-            spaceshipRB = other.GetComponent<Rigidbody>();
+            spaceship = other.GetComponentInParent<Spaceship>();
 
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Spaceship>() == true)
+        if (other.GetComponentInParent<Spaceship>() == true)
         {
-            spaceshipRB = null;
+            spaceship = null;
 
         }
     }
 
+    private void OnDrawGizmos()
+    {
+
+        if (spaceship != null)
+        {
+            Vector3 velocity = spaceship.currentVelocity;
+            Vector3 toWell = (transform.position - spaceship.transform.position).normalized;
+
+            // Project velocity onto the direction toward the gravity well
+            float velocityTowardWell = Vector3.Dot(velocity, toWell);
+            Vector3 velocityComponent = toWell * velocityTowardWell;
+
+            // Draw the velocity component as a yellow line
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(spaceship.transform.position, velocityComponent);
+        }
+    }
+
+    public void GizmosToDraw()
+    {
+        if (active) Gizmos.color = Color.green;
+        else Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, pullRadius);
+    }
 }
