@@ -9,10 +9,14 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
 
     [SerializeField] private float pullForce = 10f;
     [SerializeField] private float pullRadius;
+    [SerializeField] private AnimationCurve forceCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
     private bool active = true;
     [SerializeField] private float timeInactive;
     [SerializeField] private float timeActive;
+
+    private Vector2 direction;
+    private float forceToApply;
 
 
     private void Start()
@@ -30,19 +34,26 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
         {
             if (active)
             {
-                Vector2 direction = transform.position - spaceship.transform.position;
+                direction = transform.position - spaceship.transform.position;
+                float distance = Vector2.Distance(transform.position, spaceship.transform.position);
+
                 //Rotate to center
                 Quaternion targetRotation = Quaternion.FromToRotation(spaceship.transform.up, -direction.normalized) * spaceship.transform.rotation;
                 spaceship.RotateShip(targetRotation);
+
                 if (!spaceship.isDocked)
                 {
-                    //Pull
-                    float distance = Vector2.Distance(transform.position, spaceship.transform.position);
-                    spaceship.AddForceToShip(direction.normalized * pullForce * (pullRadius / distance));
+                    // Calculate normalized distance (0 at center, 1 at radius)
+                    float normalizedDistance = Mathf.Clamp01(distance / pullRadius);
+
+                    // Get force multiplier from curve
+                    float forceMultiplier = forceCurve.Evaluate(normalizedDistance);
+                    forceToApply = pullForce * forceMultiplier;
+
+                    // Apply force with curve multiplier
+                    spaceship.AddForceToShip(direction.normalized * forceToApply);
                 }
-
             }
-
         }
     }
 
@@ -55,7 +66,6 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
 
             active = true;
             yield return new WaitForSeconds(timeActive);
-
         }
     }
 
@@ -63,36 +73,32 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
     {
         if (other.GetComponent<Spaceship>() == true)
         {
-        print(other.transform);
+            print(other.transform);
             spaceship = other.GetComponent<Spaceship>();
             spaceship.wellCount++;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<Spaceship>() == true)
         {
             spaceship.wellCount--;
             spaceship = null;
-
         }
     }
 
     private void OnDrawGizmos()
     {
-
         if (spaceship != null)
         {
-            Vector3 velocity = spaceship.currentVelocity;
-            Vector3 toWell = (transform.position - spaceship.transform.position).normalized;
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(spaceship.transform.position, spaceship.transform.position + (Vector3)(direction * forceToApply));
 
-            // Project velocity onto the direction toward the gravity well
-            float velocityTowardWell = Vector3.Dot(velocity, toWell);
-            Vector3 velocityComponent = toWell * velocityTowardWell;
+            Gizmos.color = Color.green;
+            //Gizmos.DrawLine(spaceship.transform.position, transform.position);
 
-            // Draw the velocity component as a yellow line
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(spaceship.transform.position, velocityComponent);
+
         }
     }
 
@@ -100,6 +106,14 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
     {
         if (active) Gizmos.color = Color.green;
         else Gizmos.color = Color.red;
+
         Gizmos.DrawWireSphere(transform.position, pullRadius);
+
+
+
+
+
+        // Draw curve visualization (optional)
+
     }
 }
