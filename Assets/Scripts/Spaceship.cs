@@ -14,18 +14,28 @@ public class Spaceship : MonoBehaviour
     private Vector2 direction;
     public int wellCount;
 
+    //Visuals
+    [SerializeField] private SpaceshipVisuals spaceshipVisuals;
+
     // Debug
     public Vector3 currentVelocity;
+
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         directionToGo = transform.up;
+        spaceshipVisuals = GetComponentInChildren<SpaceshipVisuals>();
     }
     // Update is called once per frame
     void Update()
     {
         currentVelocity = rb.velocity;
+        spaceshipVisuals.SetSpeed(currentVelocity.magnitude);
+        print("Current speed : " + currentVelocity.magnitude);
+
+
         if (Input.GetKeyDown(KeyCode.Alpha1) && isDocked)
         {
             StartCoroutine(Liftoff(1));
@@ -98,10 +108,14 @@ public class Spaceship : MonoBehaviour
     {
         print("prssed");
         direction = directionToGo;
+        spaceshipVisuals.TriggerAnimation("Charge");
         yield return new WaitForSeconds(strength);
         Jump(strength);
+        spaceshipVisuals.TriggerAnimation("Launch");
         yield return new WaitForSeconds(.5f);
         HasLanded(false);
+        //yield return new WaitForSeconds(1f);
+        //spaceshipvisuals.TriggerAnimation("Idle");
     }
 
     public void AddForceToShip(Vector2 force)
