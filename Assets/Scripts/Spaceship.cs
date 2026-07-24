@@ -73,8 +73,10 @@ public class Spaceship : MonoBehaviour
         {
             rb.drag = 2f;
         }
-        else if (!isDocked)
-            rb.drag = 0.5f;
+        else if (!isDocked && wellCount == 0)
+            rb.drag = 0f;
+        else if (wellCount != 0)
+            rb.drag = 0.2f;
 
     }
     private void Jump(int strength)
