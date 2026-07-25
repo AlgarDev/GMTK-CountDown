@@ -33,7 +33,7 @@ public class Spaceship : MonoBehaviour
     {
         currentVelocity = rb.velocity;
         spaceshipVisuals.SetSpeed(currentVelocity.magnitude);
-        print("Current speed : " + currentVelocity.magnitude);
+        //print("Current speed : " + currentVelocity.magnitude);
 
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && isDocked)
