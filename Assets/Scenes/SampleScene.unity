@@ -1160,6 +1160,7 @@ MonoBehaviour:
   leverPivot: {fileID: 8715044228952686938}
   cam: {fileID: 691212468}
   joystickSensitivity: 0.35
+  stepSize: 1
 --- !u!1 &1412315036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2159,6 +2160,7 @@ MonoBehaviour:
   onButtonUp:
     m_PersistentCalls:
       m_Calls: []
+  graceDuration: 0.5
 --- !u!64 &6662320133590254378
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2520,6 +2522,7 @@ MonoBehaviour:
   onButtonUp:
     m_PersistentCalls:
       m_Calls: []
+  graceDuration: 0.5
 --- !u!64 &7899099929983944039
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2582,10 +2585,23 @@ MonoBehaviour:
       m_Calls: []
   onButtonDown:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 949116109}
+        m_TargetAssemblyTypeName: ControlPanel, Assembly-CSharp
+        m_MethodName: SmoothLeverReset
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onButtonUp:
     m_PersistentCalls:
       m_Calls: []
+  graceDuration: 0.2
 --- !u!135 &8715044228952686941
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2605,8 +2621,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.4
-  m_Center: {x: 0, y: 0, z: 1.15}
+  m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 1.2}
 --- !u!23 &8800747250998465889
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2717,6 +2733,7 @@ MonoBehaviour:
   onButtonUp:
     m_PersistentCalls:
       m_Calls: []
+  graceDuration: 0.5
 --- !u!64 &8994209516376620182
 MeshCollider:
   m_ObjectHideFlags: 0

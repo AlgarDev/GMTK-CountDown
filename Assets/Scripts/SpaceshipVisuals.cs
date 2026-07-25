@@ -12,9 +12,13 @@ public class SpaceshipVisuals : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void TriggerAnimation(string trigger)
+    public void TriggerAnimation(string trigger, int time)
     {
-        if (animator != null) animator.SetTrigger(trigger);
+        if (animator != null)
+        {
+            animator.SetTrigger(trigger);
+            animator.speed = time;
+        }
     }
 
     public void SetSpeed(float speed)
