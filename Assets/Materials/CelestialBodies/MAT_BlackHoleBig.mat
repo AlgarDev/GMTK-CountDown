@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Planet
+  m_Name: MAT_BlackHoleBig
   m_Shader: {fileID: -6465566751694194690, guid: eac95fc965caa8f43a07818182bd3ee5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -45,13 +45,15 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _FresnelPower: 5
-    - _FresnelValue: 3.89
-    - _Number: 1
+    - _FresnelValue: -2.22
+    - _Noise: 39.92
+    - _Number: 4
     - _Power: 0.13
-    - _ShakeAmount: 0
-    - _ShakeSpeed: 0
-    - _Speed: -0.05
+    - _ShakeAmount: -0.2
+    - _ShakeSpeed: 56
+    - _Speed: 2
+    - _Transparency: 8.5
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.5330188, g: 1, b: 0.89587456, a: 1}
+    - _Color: {r: 0.21698111, g: 0.16682982, b: 0.20249295, a: 1}
+    - _FresnelColor: {r: 0.21702567, g: 0.078987196, b: 0.23584908, a: 1}
   m_BuildTextureStacks: []

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Star
+  m_Name: MAT_SmallStar
   m_Shader: {fileID: -6465566751694194690, guid: eac95fc965caa8f43a07818182bd3ee5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -45,13 +45,15 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _FresnelPower: 5
-    - _FresnelValue: -1.71
+    - _FresnelValue: -3.22
+    - _Noise: 0
     - _Number: 1
     - _Power: 0.13
-    - _ShakeAmount: 0.5
-    - _ShakeSpeed: 0.1
-    - _Speed: -0.05
+    - _ShakeAmount: -1.29
+    - _ShakeSpeed: 0.01
+    - _Speed: 0
+    - _Transparency: 6
     m_Colors:
-    - _Color: {r: 1, g: 0.7817019, b: 0, a: 1}
-    - _FresnelColor: {r: 0.99215686, g: 0.40392274, b: 0.12549017, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
