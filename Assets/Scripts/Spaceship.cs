@@ -11,14 +11,17 @@ public class Spaceship : MonoBehaviour
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private ControlPanel controlPanel;
+
     private Rigidbody rb;
     public bool isDocked = true;
     private Vector2 directionToGo;
     private Vector2 direction;
     public int wellCount;
     private Vector3 landingRotation;
+
     //Visuals
     [SerializeField] private SpaceshipVisuals spaceshipVisuals;
+    [SerializeField] private CameraController spaceship;
 
     // Debug
     public Vector3 currentVelocity;
@@ -31,6 +34,7 @@ public class Spaceship : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         directionToGo = transform.up;
         spaceshipVisuals = GetComponentInChildren<SpaceshipVisuals>();
+        CameraController.Instance.FollowState(false);
     }
     // Update is called once per frame
     void Update()
@@ -55,6 +59,7 @@ public class Spaceship : MonoBehaviour
         //}
         if (wellCount == 0 && !isDocked)
         {
+            CameraController.Instance.FollowState(true);
             //RotateShip(Quaternion.Euler(currentVelocity.normalized));
             //visual.rotation = Quaternion.LookRotation(currentVelocity.normalized);
             //visual.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Mathf.Atan2(currentVelocity.y, currentVelocity.x) * Mathf.Rad2Deg);
@@ -81,6 +86,7 @@ public class Spaceship : MonoBehaviour
     private void Jump(int strength)
     {
         rb.AddForce(direction * forcePerLevel * strength);
+        CameraControlPanel.Instance.Shake();
     }
     public void PressButton(int strength)
     {
@@ -89,6 +95,7 @@ public class Spaceship : MonoBehaviour
     IEnumerator Liftoff(int strength)
     {
         print("prssed");
+        CameraController.Instance.FollowState(true);
         direction = directionToGo;
         spaceshipVisuals.TriggerAnimation("Charge", 1);
         yield return new WaitForSeconds(strength);
@@ -117,6 +124,7 @@ public class Spaceship : MonoBehaviour
         isDocked = hasLanded;
         if (isDocked)
         {
+            CameraControlPanel.Instance.Shake();
             landingRotation = visual.rotation.eulerAngles;
             controlPanel.StopCountdown();
             directionToGo = visual.up;
@@ -124,10 +132,12 @@ public class Spaceship : MonoBehaviour
             //bit too fast, se calhar é melhor aumentar a turn speed momentaneamente em vez disto idk
             Vector3 direction = visual.position - planetPosition;
             visual.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f);
+            CameraController.Instance.SetRotation();
         }
     }
     public void HasCrashed()
     {
+        CameraControlPanel.Instance.Shake();
         print("crasheed");
     }
     public void AimRotation(float angle)

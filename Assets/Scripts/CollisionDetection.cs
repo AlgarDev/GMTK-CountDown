@@ -11,6 +11,7 @@ public class CollisionDetection : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        CameraControlPanel.Instance.Shake(1);
         if (other.CompareTag("Planet"))            //insere aqui uma merda para saber se oq colide e importante
         {
             if (ss.currentVelocity.magnitude > 2f)
