@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -44,6 +46,8 @@ public class Spaceship : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (rb == null)
+            return;
         currentVelocity = rb.velocity;
         spaceshipVisuals.SetSpeed(currentVelocity.magnitude);
         //print("Current speed : " + currentVelocity.magnitude);
@@ -74,6 +78,8 @@ public class Spaceship : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (rb == null)
+            return;
         if (rb.velocity.magnitude < 0.0001f)
         {
             rb.velocity = Vector3.zero;
@@ -114,7 +120,11 @@ public class Spaceship : MonoBehaviour
 
     public void AddForceToShip(Vector2 force)
     {
+        if (rb != null)
+        {
+
         rb.AddForce(force);
+        }
     }
 
     public void RotateShip(Quaternion targetRotation)
@@ -148,11 +158,34 @@ public class Spaceship : MonoBehaviour
         parts.gameObject.SetActive(true);
         Destroy(rb);
         rb = null;
-        for (int i = 0; i < parts.transform.childCount; i++)
+        CameraController.Instance.FollowState(false);
+        List<Transform> children = new List<Transform>();
+        int childCount = parts.transform.childCount;
+
+        for (int i = 0; i < childCount; i++)
         {
-            Transform Go = parts.transform.GetChild(i);
-            Go.GetComponent<Rigidbody>().AddForce(new Vector3(Random.value, Random.value, 0));
+            children.Add(parts.transform.GetChild(i));
         }
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform piece = children[i];
+
+            Rigidbody pieceRb = piece.GetComponentInChildren<Rigidbody>();
+
+            piece.parent = null;
+            if (pieceRb != null)
+            {
+                Vector3 explosionDirection = new Vector3(
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f)
+                ).normalized;
+                print(explosionDirection);
+
+                pieceRb.AddForce(explosionDirection * 500f);
+            }
+        }
+        print("crashed");
 
     }
     public void WasSucked()

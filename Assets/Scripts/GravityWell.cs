@@ -41,7 +41,7 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
 
 
 
-                if (!spaceship.isDocked)
+                if (!spaceship.isDocked && spaceship != null)
                 {
                     //Rotate to center
                     Quaternion targetRotation = Quaternion.FromToRotation(spaceship.transform.up, -direction.normalized) * spaceship.transform.rotation;
