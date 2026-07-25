@@ -126,6 +126,10 @@ public class Spaceship : MonoBehaviour
             visual.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f);
         }
     }
+    public void HasCrashed()
+    {
+        print("crasheed");
+    }
     public void AimRotation(float angle)
     {
         visual.localEulerAngles = landingRotation + new Vector3(0, 0, angle);
