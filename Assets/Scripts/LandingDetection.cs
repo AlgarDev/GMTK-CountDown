@@ -7,7 +7,7 @@ public class LandingDetection : MonoBehaviour
     Spaceship ss;
     private void Start()
     {
-       ss = GetComponentInParent<Spaceship>();
+        ss = GetComponentInParent<Spaceship>();
     }
     private void OnTriggerStay(Collider other)
     {
@@ -15,7 +15,7 @@ public class LandingDetection : MonoBehaviour
         {
             if (ss.currentVelocity.magnitude < 1f)
             {
-                ss.HasLanded(true);
+                ss.HasLanded(true, other.transform.position);
 
             }
         }

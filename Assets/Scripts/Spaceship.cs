@@ -55,8 +55,11 @@ public class Spaceship : MonoBehaviour
         //}
         if (wellCount == 0 && !isDocked)
         {
-            RotateShip(Quaternion.Euler(currentVelocity.normalized));
-            print("rotating to direction of movement");
+            //RotateShip(Quaternion.Euler(currentVelocity.normalized));
+            //visual.rotation = Quaternion.LookRotation(currentVelocity.normalized);
+            //visual.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Mathf.Atan2(currentVelocity.y, currentVelocity.x) * Mathf.Rad2Deg);
+            RotateShip(Quaternion.Euler(0f, 0f, Mathf.Atan2(currentVelocity.y, currentVelocity.x) * Mathf.Rad2Deg - 90f));
+            print("rotating to direction of movement " + Quaternion.Euler(currentVelocity.normalized));
         }
     }
     private void FixedUpdate()
@@ -92,7 +95,7 @@ public class Spaceship : MonoBehaviour
         Jump(strength);
         spaceshipVisuals.TriggerAnimation("Launch", 1);
         yield return new WaitForSeconds(.5f);
-        HasLanded(false);
+        HasLanded(false, Vector3.zero);
         //yield return new WaitForSeconds(1f);
         //spaceshipvisuals.TriggerAnimation("Idle");
     }
@@ -107,7 +110,7 @@ public class Spaceship : MonoBehaviour
         // rb.MoveRotation(rotation);
         visual.rotation = Quaternion.Slerp(visual.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
-    public void HasLanded(bool hasLanded)
+    public void HasLanded(bool hasLanded, Vector3 planetPosition)
     {
         if (isDocked == hasLanded)
             return;
@@ -117,11 +120,15 @@ public class Spaceship : MonoBehaviour
             landingRotation = visual.rotation.eulerAngles;
             controlPanel.StopCountdown();
             directionToGo = visual.up;
+
+            //bit too fast, se calhar é melhor aumentar a turn speed momentaneamente em vez disto idk
+            Vector3 direction = visual.position - planetPosition;
+            visual.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f);
         }
     }
     public void AimRotation(float angle)
     {
-        visual.localEulerAngles = landingRotation + new Vector3(0,0,angle);
+        visual.localEulerAngles = landingRotation + new Vector3(0, 0, angle);
         directionToGo = visual.up;
     }
 
@@ -140,7 +147,11 @@ public class Spaceship : MonoBehaviour
 
         // Draw a small sphere at the tip for visibility
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(transform.position + rb.velocity, 0.1f);
+        Gizmos.DrawRay(transform.position, currentVelocity * 10f);
+
+        // Draw a small sphere at the tip for visibility
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, visual.localEulerAngles * 10f);
     }
     public bool IsDocked()
     {

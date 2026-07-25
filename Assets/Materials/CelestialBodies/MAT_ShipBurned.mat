@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Star
+  m_Name: MAT_ShipBurned
   m_Shader: {fileID: -6465566751694194690, guid: eac95fc965caa8f43a07818182bd3ee5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: 838fd5aef64c6fe4fb6defc6d68461e1, type: 3}
+        m_Texture: {fileID: 2800000, guid: affdcca39e8e9c04b98bae6cd4a54663, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -49,15 +49,15 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _FresnelPower: 5
-    - _FresnelValue: -1.71
+    - _FresnelValue: 0.95
     - _Noise: 49.3
     - _Number: 1
     - _Power: 0.13
-    - _ShakeAmount: 0.2
+    - _ShakeAmount: 0.1
     - _ShakeSpeed: 0.2
     - _Speed: -0.05
     - _Transparency: 5
     m_Colors:
-    - _Color: {r: 1, g: 0.7817019, b: 0, a: 1}
+    - _Color: {r: 0.9056604, g: 0.3667019, b: 0.11534355, a: 1}
     - _FresnelColor: {r: 0.99215686, g: 0.40392274, b: 0.12549017, a: 1}
   m_BuildTextureStacks: []
