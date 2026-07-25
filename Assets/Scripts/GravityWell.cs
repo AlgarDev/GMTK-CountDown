@@ -15,6 +15,8 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
     [SerializeField] private float timeInactive;
     [SerializeField] private float timeActive;
 
+    [SerializeField] private float drag = 0.2f;
+
     private Vector2 direction;
     private float forceToApply;
 
@@ -54,6 +56,8 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
 
                     // Apply force with curve multiplier
                     spaceship.AddForceToShip(direction.normalized * forceToApply);
+
+                    spaceship.dragToApply = drag;
                 }
             }
         }

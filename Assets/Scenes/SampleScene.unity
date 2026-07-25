@@ -708,6 +708,7 @@ MonoBehaviour:
   spaceshipVisuals: {fileID: 0}
   spaceship: {fileID: 0}
   currentVelocity: {x: 0, y: 0, z: 0}
+  dragToApply: 0.2
 --- !u!54 &531007454
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2522,6 +2523,10 @@ PrefabInstance:
       value: CelestialObject
       objectReference: {fileID: 0}
     - target: {fileID: 2216626049059528766, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: drag
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2216626049059528766, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: pullForce
       value: 50
       objectReference: {fileID: 0}
@@ -2609,6 +2614,18 @@ PrefabInstance:
       propertyPath: forceCurve.m_Curve.Array.data[1].tangentMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 8.2832
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 8.2832
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 8.2832
+      objectReference: {fileID: 0}
     - target: {fileID: 4203928904046739440, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalScale.x
       value: 6
@@ -2635,11 +2652,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8748709836183407496, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.7
+      value: 8.4
       objectReference: {fileID: 0}
     - target: {fileID: 8748709836183407496, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 36.1
+      value: 33.7
       objectReference: {fileID: 0}
     - target: {fileID: 8748709836183407496, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalPosition.z
