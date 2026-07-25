@@ -6,8 +6,11 @@ using UnityEngine.UIElements;
 
 public class Spaceship : MonoBehaviour
 {
+    private Spaceship mySpaceship;
     [SerializeField] private float forcePerLevel;
     [SerializeField] public Transform visual;
+    [SerializeField] public Transform parts;
+
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private ControlPanel controlPanel;
@@ -18,15 +21,17 @@ public class Spaceship : MonoBehaviour
     private Vector2 direction;
     public int wellCount;
     private Vector3 landingRotation;
-
+    public float dragToApply = 0.2f;
     //Visuals
-    [SerializeField] private SpaceshipVisuals spaceshipVisuals;
-    [SerializeField] private CameraController spaceship;
+    private SpaceshipVisuals spaceshipVisuals;
 
     // Debug
     public Vector3 currentVelocity;
 
-
+    private void Awake()
+    {
+        mySpaceship = GetComponent<Spaceship>();
+    }
 
     private void Start()
     {
@@ -80,7 +85,7 @@ public class Spaceship : MonoBehaviour
         else if (!isDocked && wellCount == 0)
             rb.drag = 0f;
         else if (!isDocked && wellCount != 0)
-            rb.drag = 0.2f;
+            rb.drag = dragToApply;
 
     }
     private void Jump(int strength)
@@ -133,12 +138,26 @@ public class Spaceship : MonoBehaviour
             Vector3 direction = visual.position - planetPosition;
             visual.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f);
             CameraController.Instance.SetRotation();
+            CameraController.Instance.FollowState(false);
         }
     }
     public void HasCrashed()
     {
         CameraControlPanel.Instance.Shake();
-        print("crasheed");
+        visual.gameObject.SetActive(false);
+        parts.gameObject.SetActive(true);
+        Destroy(rb);
+        rb = null;
+        for (int i = 0; i < parts.transform.childCount; i++)
+        {
+            Transform Go = parts.transform.GetChild(i);
+            Go.GetComponent<Rigidbody>().AddForce(new Vector3(Random.value, Random.value, 0));
+        }
+
+    }
+    public void WasSucked()
+    {
+        print("she suck me till my ship count down");
     }
     public void AimRotation(float angle)
     {

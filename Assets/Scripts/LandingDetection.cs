@@ -13,7 +13,7 @@ public class LandingDetection : MonoBehaviour
     {
         if (other.CompareTag("Planet"))            //insere aqui uma merda para saber se oq colide e importante
         {
-            if (ss.currentVelocity.magnitude < 1f)
+            if (ss.currentVelocity.magnitude < 0.5f)
             {
                 ss.HasLanded(true, other.transform.position);
 
