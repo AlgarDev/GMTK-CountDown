@@ -20,11 +20,19 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
     private Vector2 direction;
     private float forceToApply;
 
+    [SerializeField] CelestialBodyVisual visuals;
+
 
     private void Start()
     {
+        if (transform.localScale != Vector3.one)
+        {
+            transform.localScale = Vector3.one;
+            Debug.LogError(gameObject.name + " : Don't change the scale of the parent, thank you :)");
+        }
         myCollider = GetComponent<SphereCollider>();
         myCollider.radius = pullRadius;
+        visuals.SetAtmosphereVisual(pullRadius);
 
         active = true;
         if (timeInactive != 0) StartCoroutine(GravityEffect());

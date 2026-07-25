@@ -97,6 +97,7 @@ MonoBehaviour:
   timeInactive: 1
   timeActive: 2
   drag: 0.2
+  visuals: {fileID: 5376163901004464395}
 --- !u!114 &7300438122229833693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atmoParent: {fileID: 8912192493958193085}
+  surfaceParent: {fileID: 1304633712034216502}
 --- !u!1 &8769675853037453819
 GameObject:
   m_ObjectHideFlags: 0
