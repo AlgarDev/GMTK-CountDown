@@ -11,7 +11,6 @@ public class EventClick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     private ControlPanel panel;
     private bool isHovering;
     private bool isDragging;
-
     [SerializeField] private float graceDuration = 0.5f;
     private Coroutine graceCoroutine;
     private void Awake()
@@ -100,6 +99,6 @@ public class EventClick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     }
     private bool CanInteract()
     {
-        return panel.ship == null || panel.ship.IsDocked() && panel.countdownCoroutine == null;
+        return panel.ship == null || panel.ship.IsDocked() && panel.countdownCoroutine == null && !panel.ship.isDead && MenuManager.Instance.beginPlay;
     }
 }

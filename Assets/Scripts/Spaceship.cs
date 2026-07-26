@@ -17,6 +17,8 @@ public class Spaceship : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private ControlPanel controlPanel;
 
+    [SerializeField] private Canvas deathCanvas;
+    [SerializeField] private Canvas menuCanvas;
     private Rigidbody rb;
     public bool isDocked = true;
     private Vector2 directionToGo;
@@ -24,6 +26,8 @@ public class Spaceship : MonoBehaviour
     public int wellCount;
     private Vector3 landingRotation;
     public float dragToApply = 0.2f;
+    public bool isDead = false;
+
     //Visuals
     private SpaceshipVisuals spaceshipVisuals;
 
@@ -50,22 +54,12 @@ public class Spaceship : MonoBehaviour
             return;
         currentVelocity = rb.velocity;
         spaceshipVisuals.SetSpeed(currentVelocity.magnitude);
-        //print("Current speed : " + currentVelocity.magnitude);
 
-        //if (Input.GetKeyDown(KeyCode.LeftArrow))
-        //{
-        //    print("shift left");
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            menuCanvas.gameObject.SetActive(!menuCanvas.gameObject.activeSelf);
+        }
 
-        //    float angle = 10f; // degrees to rotate
-        //    directionToGo = Quaternion.Euler(0, 0, angle) * directionToGo;
-        //}
-        //if (Input.GetKeyDown(KeyCode.RightArrow))
-        //{
-        //    print("shift right");
-
-        //    float angle = 10f; // degrees to rotate
-        //    directionToGo = Quaternion.Euler(0, 0, -angle) * directionToGo;
-        //}
         if (wellCount == 0 && !isDocked)
         {
             CameraController.Instance.FollowState(true);
@@ -105,7 +99,6 @@ public class Spaceship : MonoBehaviour
     }
     IEnumerator Liftoff(int strength)
     {
-        print("prssed");
         CameraController.Instance.FollowState(true);
         direction = directionToGo;
         spaceshipVisuals.TriggerAnimation("Charge", 1);
@@ -161,7 +154,7 @@ public class Spaceship : MonoBehaviour
         CameraController.Instance.FollowState(false);
         List<Transform> children = new List<Transform>();
         int childCount = parts.transform.childCount;
-
+        isDead = true;
         for (int i = 0; i < childCount; i++)
         {
             children.Add(parts.transform.GetChild(i));
@@ -186,11 +179,20 @@ public class Spaceship : MonoBehaviour
             }
         }
         print("crashed");
+        StartCoroutine(Lose());
 
     }
     public void WasSucked()
     {
+        isDead = true;
+        StartCoroutine(Lose());
         print("she suck me till my ship count down");
+    }
+    IEnumerator Lose()
+    {
+        yield return new WaitForSeconds(2f);
+        deathCanvas.gameObject.SetActive(true);
+
     }
     public void AimRotation(float angle)
     {
