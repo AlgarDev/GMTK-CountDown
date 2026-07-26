@@ -3382,6 +3382,14 @@ PrefabInstance:
       propertyPath: ship
       value: 
       objectReference: {fileID: 531007453}
+    - target: {fileID: 6710997452199727009, guid: 3faa35dc7f129d44591674c7c8c8f418, type: 3}
+      propertyPath: audioClips.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6710997452199727009, guid: 3faa35dc7f129d44591674c7c8c8f418, type: 3}
+      propertyPath: audioClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 84f6d41ea24f4084db3da487d44cc1c8, type: 3}
     - target: {fileID: 7640972679903079230, guid: 3faa35dc7f129d44591674c7c8c8f418, type: 3}
       propertyPath: m_Name
       value: ControlPanel
