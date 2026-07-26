@@ -8,6 +8,7 @@ public class MinimapManager : MonoBehaviour
     [SerializeField] private Transform skull;
     [SerializeField] private Transform heart;
     [SerializeField] private Transform arrow;
+    [SerializeField] private Transform directions;
 
     void Update()
     {
@@ -16,10 +17,19 @@ public class MinimapManager : MonoBehaviour
             Vector3 targetPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
             transform.position = targetPosition;
 
-            arrow.rotation = target.rotation;
+            arrow.localRotation = target.localRotation;
 
-            heart.rotation = Quaternion.identity;
-            skull.rotation = Quaternion.identity;
+            //directions.rotation = target.rotation;
+            heart.localRotation = target.localRotation;
+            skull.localRotation = target.localRotation;
+
+
+            /*
+            heart.rotation = target.rotation;
+            heart.position = new Vector3(0, 0, heart.position.z);
+            skull.rotation = target.rotation;
+            skull.position = new Vector3(0, 0, skull.position.z);
+            */
         }
     }
 }
