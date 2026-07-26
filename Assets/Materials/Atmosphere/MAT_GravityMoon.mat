@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_GravityVFX
+  m_Name: MAT_GravityMoon
   m_Shader: {fileID: -6465566751694194690, guid: ed3b9600de18683468aa08361e065193, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -36,8 +36,11 @@ Material:
     - _LineSpeed: -0.6
     - _LineWidth: 0.76
     - _NoisePower: 4.38
+    - _NoiseSpeed: 0.6
+    - _ShakeAmount: 0
+    - _ShakeSpeed: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9811321, g: 0.8940347, b: 0.83766466, a: 1}
     - _Direction: {r: 0, g: -0.3, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3313393469689855195

@@ -52,7 +52,8 @@ public class GravityWell : MonoBehaviour, IGizmosOnEditorTarget
                 if (!spaceship.isDocked && spaceship != null)
                 {
                     //Rotate to center
-                    Quaternion targetRotation = Quaternion.FromToRotation(spaceship.transform.up, -direction.normalized) * spaceship.transform.rotation;
+                    float targetAngle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg - 90f;
+                    Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
                     spaceship.RotateShip(targetRotation);
 
                     // Calculate normalized distance (0 at center, 1 at radius)
