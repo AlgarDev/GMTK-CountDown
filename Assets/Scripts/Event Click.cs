@@ -99,6 +99,6 @@ public class EventClick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     }
     private bool CanInteract()
     {
-        return panel.ship == null || panel.ship.IsDocked() && panel.countdownCoroutine == null && !panel.ship.isDead && MenuManager.Instance.beginPlay;
+        return panel.ship == null || panel.ship.IsDocked() && panel.countdownCoroutine == null && !panel.ship.isDead && MenuManager.Instance.beginPlay && !panel.ship.hasWon;
     }
 }

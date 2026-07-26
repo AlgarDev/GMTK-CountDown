@@ -32,11 +32,14 @@ public class Spaceship : MonoBehaviour
     AudioSource audioSource;
     Dictionary<string, AudioClip> clipDict;
     private Coroutine cruisingSoundCoroutine;
+    private Collider _collider;
+    public bool hasWon;
     //Visuals
     private SpaceshipVisuals spaceshipVisuals;
 
     // Debug
     public Vector3 currentVelocity;
+    public bool win;
 
     private void Awake()
     {
@@ -52,11 +55,12 @@ public class Spaceship : MonoBehaviour
         spaceshipVisuals = GetComponentInChildren<SpaceshipVisuals>();
         CameraController.Instance.FollowState(false);
         audioSource = GetComponent<AudioSource>();
+        _collider = GetComponent<CapsuleCollider>();
     }
     // Update is called once per frame
     void Update()
     {
-        if (rb == null)
+        if (rb == null || isDead)
             return;
         currentVelocity = rb.velocity;
         spaceshipVisuals.SetSpeed(currentVelocity.magnitude);
@@ -75,10 +79,16 @@ public class Spaceship : MonoBehaviour
             RotateShip(Quaternion.Euler(0f, 0f, Mathf.Atan2(currentVelocity.y, currentVelocity.x) * Mathf.Rad2Deg - 90f));
             print("rotating to direction of movement " + Quaternion.Euler(currentVelocity.normalized));
         }
+        if (win)
+        {
+
+            Win();
+            win = false;
+        }
     }
     private void FixedUpdate()
     {
-        if (rb == null)
+        if (rb == null || isDead)
             return;
         if (rb.velocity.magnitude < 0.0001f)
         {
@@ -168,12 +178,15 @@ public class Spaceship : MonoBehaviour
     }
     public void HasCrashed()
     {
+        if (isDead)
+            return;
         CameraControlPanel.Instance.Shake();
         visual.gameObject.SetActive(false);
         parts.gameObject.SetActive(true);
         Destroy(rb);
         rb = null;
         CameraController.Instance.FollowState(false);
+
         List<Transform> children = new List<Transform>();
         int childCount = parts.transform.childCount;
         isDead = true;
@@ -212,6 +225,40 @@ public class Spaceship : MonoBehaviour
         if (isDead)
             return;
         isDead = true;
+
+        CameraControlPanel.Instance.Shake();
+        visual.gameObject.SetActive(false);
+        parts.gameObject.SetActive(true);
+        Destroy(rb);
+        rb = null;
+        CameraController.Instance.FollowState(false);
+        List<Transform> children = new List<Transform>();
+        int childCount = parts.transform.childCount;
+        isDead = true;
+        for (int i = 0; i < childCount; i++)
+        {
+            children.Add(parts.transform.GetChild(i));
+        }
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform piece = children[i];
+
+            Rigidbody pieceRb = piece.GetComponentInChildren<Rigidbody>();
+
+            piece.parent = null;
+            if (pieceRb != null)
+            {
+                Vector3 explosionDirection = new Vector3(
+                    Random.Range(-1f, 1f),
+                    Random.Range(-2f, -.5f),
+                    Random.Range(-1f, 1f)
+                ).normalized;
+                print(explosionDirection);
+
+                pieceRb.AddForce(explosionDirection * 500f);
+            }
+        }
+
         if (cruisingSoundCoroutine != null)
             StopCoroutine(cruisingSoundCoroutine);
         PlayShipSound("ShipDeath", false, 1, 0.5f);
@@ -242,6 +289,20 @@ public class Spaceship : MonoBehaviour
         audioSource.pitch = pitch;
         audioSource.volume = volume;
         audioSource.Play();
+    }
+    public void Win()
+    {
+        Destroy(rb);
+        rb = null;
+        hasWon = true;
+        MenuManager.Instance.YouWin();
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Star"))
+        {
+            HasCrashed();
+        }
     }
     private void OnDrawGizmos()
     {

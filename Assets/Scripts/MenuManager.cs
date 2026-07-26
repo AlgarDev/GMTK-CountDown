@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Canvas MenuCanvas;
     [SerializeField] Canvas WinCanvas;
     public bool beginPlay = false;
+    [SerializeField] List<AudioClip> audioClips = new List<AudioClip>();
+    AudioSource audioSource;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -19,6 +22,10 @@ public class MenuManager : MonoBehaviour
 
         Instance = this;
         Time.timeScale = 0f;
+
+        audioSource = GetComponent<AudioSource>();
+
+        PlayMusic(0, true, 1, 0.4f);
     }
     public void Reset()
     {
@@ -29,13 +36,29 @@ public class MenuManager : MonoBehaviour
         MenuCanvas.gameObject.SetActive(false);
         Time.timeScale = 1.0f;
         beginPlay = true;
+        PlayMusic(1, true, 1, 0.4f);
 
     }
     public void YouWin()
     {
-        WinCanvas.gameObject.SetActive(false);
+        WinCanvas.gameObject.SetActive(true);
         var bh = FindObjectOfType<ChasingBlackHole>();
-        bh.StartAcending(false);
+        bh.gameObject.GetComponent<AudioSource>().Stop();
+        Destroy(bh);
+        PlayMusic(2, true, 1, 0.4f);
         Time.timeScale = 0.0f;
+
+
+    }
+
+    public void PlayMusic(int index, bool loop, float pitch, float volume)
+    {
+        audioSource.clip = audioClips[index];
+        audioSource.loop = loop;
+        audioSource.pitch = pitch;
+        audioSource.volume = volume;
+        audioSource.ignoreListenerPause = true;
+        audioSource.ignoreListenerVolume = true;
+        audioSource.Play();
     }
 }
