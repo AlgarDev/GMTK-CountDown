@@ -161,6 +161,8 @@ public class Spaceship : MonoBehaviour
             if(cruisingSoundCoroutine != null)
                 StopCoroutine(cruisingSoundCoroutine);
             PlayShipSound("ShipCollide", false, 1, 0.5f);
+            if (controlPanel.countdownCoroutine != null)
+                StopCoroutine(controlPanel.countdownCoroutine);
         }
 
     }

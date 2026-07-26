@@ -7,6 +7,9 @@ public class ChasingBlackHole : MonoBehaviour
     private bool ascending = false;
     AudioSource audioSource;
     AudioClip audioClip;
+    [SerializeField] float minPitch;
+    [SerializeField] float maxPitch;
+    [SerializeField] float speed;
     private void Start()
     {
         ship = FindObjectOfType<Spaceship>();
@@ -28,6 +31,8 @@ public class ChasingBlackHole : MonoBehaviour
         {
             StartAcending(true);
         }
+        float t = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f; // converts -1..1 to 0..1
+        audioSource.pitch = Mathf.Lerp(minPitch, maxPitch, t);
     }
     public void StartAcending(bool value)
     {
