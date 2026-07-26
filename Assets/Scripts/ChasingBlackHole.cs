@@ -14,7 +14,7 @@ public class ChasingBlackHole : MonoBehaviour
     {
         ship = FindObjectOfType<Spaceship>();
         audioSource = GetComponent<AudioSource>();
-        audioSource.clip = audioClip;
+        audioClip = audioSource.clip;
     }
     private void Update()
     {
@@ -26,6 +26,7 @@ public class ChasingBlackHole : MonoBehaviour
         if (ascending && ship && ship.transform.position.y < transform.position.y)
         {
             KillShip();
+            StartAcending(false);
         }
         if (!ship.isDocked && !ascending && !ship.isDead)
         {

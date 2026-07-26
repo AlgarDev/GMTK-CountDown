@@ -209,6 +209,8 @@ public class Spaceship : MonoBehaviour
     }
     public void WasSucked()
     {
+        if (isDead)
+            return;
         isDead = true;
         if (cruisingSoundCoroutine != null)
             StopCoroutine(cruisingSoundCoroutine);
