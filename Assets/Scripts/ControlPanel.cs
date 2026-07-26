@@ -48,7 +48,7 @@ public class ControlPanel : MonoBehaviour
         ship.PressButton(currentStrength);
         currentAngle = 0;
         currentStrength = minStrength;
-        PlayUISound(0.5f, .7f);
+        PlayUISound(0.5f, .7f, true);
 
     }
     public void LaunchForceUp()
@@ -60,7 +60,7 @@ public class ControlPanel : MonoBehaviour
             currentStrength = minStrength;
         strengthText.text = currentStrength.ToString();
 
-        PlayUISound(0.8f, 1.2f);
+        PlayUISound(0.8f, 1.2f, true);
     }
     public void LaunchForceDown()
     {
@@ -70,7 +70,7 @@ public class ControlPanel : MonoBehaviour
         if (currentStrength < minStrength)
             currentStrength = maxStrength;
         strengthText.text = currentStrength.ToString();
-        PlayUISound(0.8f, 1.2f);
+        PlayUISound(0.8f, 1.2f, true);
 
     }
     public float stepSize = 2f;
@@ -110,6 +110,7 @@ public class ControlPanel : MonoBehaviour
         while (remaining > 0)
         {
             strengthText.text = remaining.ToString();
+            PlayUISound(0.9f, 1.1f, false);
 
             yield return new WaitForSeconds(1f);
 
@@ -146,12 +147,18 @@ public class ControlPanel : MonoBehaviour
         if (list == null || list.Count == 0)
             return default;
 
-        return list[Random.Range(0, list.Count)];
+        return list[Random.Range(0, 1)];
     }
-    public void PlayUISound(float minPitch, float maxPitch)
+    public void PlayUISound(float minPitch, float maxPitch, bool isRandom)
     {
-        AudioClip randomClip = GetRandom(audioClips);
-        audioSource.clip = randomClip;
+        if (isRandom)
+        {
+            AudioClip randomClip = GetRandom(audioClips);
+            audioSource.clip = randomClip;
+        }
+        else
+            audioSource.clip = audioClips[2];
+
         audioSource.pitch = Random.Range(minPitch, maxPitch);
         audioSource.volume = 0.3f;
         audioSource.Play();
