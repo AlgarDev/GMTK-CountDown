@@ -5,9 +5,13 @@ public class ChasingBlackHole : MonoBehaviour
     [SerializeField] private float ascensionSpeed = 0.5f;
     [SerializeField] private Spaceship ship;
     private bool ascending = false;
+    AudioSource audioSource;
+    AudioClip audioClip;
     private void Start()
     {
         ship = FindObjectOfType<Spaceship>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = audioClip;
     }
     private void Update()
     {

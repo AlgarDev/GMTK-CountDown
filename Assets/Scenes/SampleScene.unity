@@ -764,7 +764,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2cb6d4bf4bf1948478439df323a54f7c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -808,7 +808,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.8
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2621,6 +2621,14 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!81 &1259272919
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259272913}
+  m_Enabled: 1
 --- !u!1 &1367576762
 GameObject:
   m_ObjectHideFlags: 0
@@ -4416,6 +4424,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8555979441678728958, guid: 50ad652971a02c646b75e958a68d2259, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1259272916}
+    - targetCorrespondingSourceObject: {fileID: 8555979441678728958, guid: 50ad652971a02c646b75e958a68d2259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1259272919}
   m_SourcePrefab: {fileID: 100100000, guid: 50ad652971a02c646b75e958a68d2259, type: 3}
 --- !u!33 &2445111887641799521
 MeshFilter:
@@ -4811,7 +4822,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -50
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4846177223645350089, guid: 0c6d26c44a2e7df41adf9feee0056271, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
