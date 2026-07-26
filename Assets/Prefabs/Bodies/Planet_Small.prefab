@@ -10,10 +10,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 77980398343368072, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_Name
-      value: CelestialObject Variant
+      value: Planet_Small
       objectReference: {fileID: 0}
     - target: {fileID: 77980398343368072, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2216626049059528766, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
@@ -26,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2216626049059528766, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: pullRadius
-      value: 27.04
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 2216626049059528766, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: timeInactive
@@ -107,18 +123,6 @@ PrefabInstance:
     - target: {fileID: 2216626049059528766, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: forceCurve.m_Curve.Array.data[1].tangentMode
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 8.2832
-      objectReference: {fileID: 0}
-    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 8.2832
-      objectReference: {fileID: 0}
-    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 8.2832
       objectReference: {fileID: 0}
     - target: {fileID: 4203928904046739440, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalScale.x

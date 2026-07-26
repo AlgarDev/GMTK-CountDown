@@ -18,15 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1304633712034216502, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -127,18 +127,6 @@ PrefabInstance:
     - target: {fileID: 2216626049059528766, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: forceCurve.m_Curve.Array.data[1].tangentMode
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 8.2832
-      objectReference: {fileID: 0}
-    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 8.2832
-      objectReference: {fileID: 0}
-    - target: {fileID: 3099277809991768626, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 8.2832
       objectReference: {fileID: 0}
     - target: {fileID: 4203928904046739440, guid: 8d5dde69af50c4346a06eb5a71bbb6aa, type: 3}
       propertyPath: m_LocalScale.x
