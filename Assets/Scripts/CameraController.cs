@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float smoothFollowSpeed = 0.125f;
     [SerializeField] private float smoothTurnSpeed = 0.125f;
     [SerializeField] private Vector3 offset = new Vector3(0, 0, -10);
-    [SerializeField] private bool followtarget;
+    [SerializeField] private bool canRotate;
 
     void Awake()
     {
@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothFollowSpeed);
             transform.position = smoothedPosition;
 
-            if (followtarget)
+            if (canRotate)
             {
                 Quaternion desiredRotation = target.rotation;
                 Quaternion smoothedRotation = Quaternion.Lerp(transform.rotation, desiredRotation, smoothTurnSpeed);
@@ -53,6 +53,6 @@ public class CameraController : MonoBehaviour
 
     public void FollowState(bool state)
     {
-        followtarget = state;
+        canRotate = state;
     }
 }
