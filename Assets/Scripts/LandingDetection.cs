@@ -19,6 +19,10 @@ public class LandingDetection : MonoBehaviour
 
             }
         }
+        else if (other.CompareTag("FinalPlanet"))
+        {
+            ss.Win();
+        }
     }
     private void OnTriggerExit(Collider other)
     {
