@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
@@ -27,7 +28,10 @@ public class Spaceship : MonoBehaviour
     private Vector3 landingRotation;
     public float dragToApply = 0.2f;
     public bool isDead = false;
-
+    [SerializeField] List<AudioClip> audioClips = new List<AudioClip>();
+    AudioSource audioSource;
+    Dictionary<string, AudioClip> clipDict;
+    private Coroutine cruisingSoundCoroutine;
     //Visuals
     private SpaceshipVisuals spaceshipVisuals;
 
@@ -37,6 +41,7 @@ public class Spaceship : MonoBehaviour
     private void Awake()
     {
         mySpaceship = GetComponent<Spaceship>();
+        clipDict = audioClips.ToDictionary(c => c.name, c => c);
     }
 
     private void Start()
@@ -46,6 +51,7 @@ public class Spaceship : MonoBehaviour
         directionToGo = transform.up;
         spaceshipVisuals = GetComponentInChildren<SpaceshipVisuals>();
         CameraController.Instance.FollowState(false);
+        audioSource = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update()
@@ -55,7 +61,7 @@ public class Spaceship : MonoBehaviour
         currentVelocity = rb.velocity;
         spaceshipVisuals.SetSpeed(currentVelocity.magnitude);
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !isDead && MenuManager.Instance.beginPlay)
         {
             menuCanvas.gameObject.SetActive(!menuCanvas.gameObject.activeSelf);
         }
@@ -92,6 +98,10 @@ public class Spaceship : MonoBehaviour
     {
         rb.AddForce(direction * forcePerLevel * strength);
         CameraControlPanel.Instance.Shake();
+        if (cruisingSoundCoroutine != null)
+            StopCoroutine(cruisingSoundCoroutine);
+        PlayShipSound("ShipLaunch", false, 1, .5f);
+
     }
     public void PressButton(int strength)
     {
@@ -104,13 +114,19 @@ public class Spaceship : MonoBehaviour
         spaceshipVisuals.TriggerAnimation("Charge", 1);
         yield return new WaitForSeconds(strength);
         Jump(strength);
+        cruisingSoundCoroutine = StartCoroutine(CruisingSound());
         spaceshipVisuals.TriggerAnimation("Launch", 1);
         yield return new WaitForSeconds(.5f);
         HasLanded(false, Vector3.zero);
         //yield return new WaitForSeconds(1f);
         //spaceshipvisuals.TriggerAnimation("Idle");
     }
+    IEnumerator CruisingSound()
+    {
+        yield return new WaitForSeconds(2f);
+        PlayShipSound("ShipInMovementLoop", true, 1, .8f);
 
+    }
     public void AddForceToShip(Vector2 force)
     {
         if (rb != null)
@@ -142,7 +158,11 @@ public class Spaceship : MonoBehaviour
             visual.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f);
             CameraController.Instance.SetRotation();
             CameraController.Instance.FollowState(false);
+            if(cruisingSoundCoroutine != null)
+                StopCoroutine(cruisingSoundCoroutine);
+            PlayShipSound("ShipCollide", false, 1, 0.5f);
         }
+
     }
     public void HasCrashed()
     {
@@ -179,12 +199,18 @@ public class Spaceship : MonoBehaviour
             }
         }
         print("crashed");
+        if (cruisingSoundCoroutine != null)
+            StopCoroutine(cruisingSoundCoroutine);
+        PlayShipSound("ShipDeath", false, 1, 0.5f);
         StartCoroutine(Lose());
 
     }
     public void WasSucked()
     {
         isDead = true;
+        if (cruisingSoundCoroutine != null)
+            StopCoroutine(cruisingSoundCoroutine);
+        PlayShipSound("ShipDeath", false, 1, 0.5f);
         StartCoroutine(Lose());
         print("she suck me till my ship count down");
     }
@@ -204,6 +230,14 @@ public class Spaceship : MonoBehaviour
     {
         //directionToGo = Quaternion.Euler(0, 0, angle) * directionToGo;
         visual.rotation *= Quaternion.Euler(0, 0, angle);
+    }
+    public void PlayShipSound(string clip, bool loop, float pitch, float volume)
+    {
+        audioSource.clip = clipDict[clip];
+        audioSource.loop = loop;
+        audioSource.pitch = pitch;
+        audioSource.volume = volume;
+        audioSource.Play();
     }
     private void OnDrawGizmos()
     {

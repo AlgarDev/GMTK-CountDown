@@ -20,14 +20,14 @@ public class ChasingBlackHole : MonoBehaviour
         {
             KillShip();
         }
-        if (!ship.isDocked)
+        if (!ship.isDocked && !ascending && !ship.isDead)
         {
-            StartAcending();
+            StartAcending(true);
         }
     }
-    public void StartAcending()
+    public void StartAcending(bool value)
     {
-        ascending = true;
+        ascending = value;
     }
     private void KillShip()
     {

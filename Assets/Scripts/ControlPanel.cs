@@ -15,13 +15,18 @@ public class ControlPanel : MonoBehaviour
     [SerializeField] private int minStrength = 1;
     [SerializeField] private TextMeshProUGUI strengthText;
     public Coroutine countdownCoroutine;
+    private Coroutine returnStrengthCoroutine;
     private bool grabbed = false;
     float currentAngle = 0;
     private int currentStrength = 1;
     private float previousLeverAngle = 0f;
+
+    [SerializeField] List<AudioClip> audioClips = new List<AudioClip>();
+    AudioSource audioSource;
     private void Start()
     {
         strengthText.text = currentStrength.ToString();
+        audioSource = GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -36,25 +41,37 @@ public class ControlPanel : MonoBehaviour
         print("pressed liftoff button");
         if (countdownCoroutine != null)
             StopCoroutine(countdownCoroutine);
+        if (returnStrengthCoroutine != null)
+            StopCoroutine(returnStrengthCoroutine);
 
         countdownCoroutine = StartCoroutine(CountdownText(currentStrength));
         ship.PressButton(currentStrength);
         currentAngle = 0;
+        currentStrength = minStrength;
+        PlayUISound(0.5f, .7f);
+
     }
     public void LaunchForceUp()
     {
+        if (returnStrengthCoroutine != null)
+            StopCoroutine(returnStrengthCoroutine);
         currentStrength++;
         if (currentStrength > maxStrength)
             currentStrength = minStrength;
         strengthText.text = currentStrength.ToString();
 
+        PlayUISound(0.8f, 1.2f);
     }
     public void LaunchForceDown()
     {
+        if (returnStrengthCoroutine != null)
+            StopCoroutine(returnStrengthCoroutine);
         currentStrength--;
         if (currentStrength < minStrength)
             currentStrength = maxStrength;
         strengthText.text = currentStrength.ToString();
+        PlayUISound(0.8f, 1.2f);
+
     }
     public float stepSize = 2f;
     public void DragLever(PointerEventData eventData)
@@ -116,6 +133,27 @@ public class ControlPanel : MonoBehaviour
         }
 
         strengthText.text = "LANDED";
-    }
+        returnStrengthCoroutine = StartCoroutine(ReturnStrengthText());
 
+    }
+    IEnumerator ReturnStrengthText()
+    {
+        yield return new WaitForSeconds(1f);
+        strengthText.text = currentStrength.ToString();
+    }
+    public static T GetRandom<T>(List<T> list)
+    {
+        if (list == null || list.Count == 0)
+            return default;
+
+        return list[Random.Range(0, list.Count)];
+    }
+    public void PlayUISound(float minPitch, float maxPitch)
+    {
+        AudioClip randomClip = GetRandom(audioClips);
+        audioSource.clip = randomClip;
+        audioSource.pitch = Random.Range(minPitch, maxPitch);
+        audioSource.volume = 0.3f;
+        audioSource.Play();
+    }
 }

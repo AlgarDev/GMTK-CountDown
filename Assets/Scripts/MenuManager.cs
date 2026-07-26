@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
     [SerializeField] Canvas MenuCanvas;
+    [SerializeField] Canvas WinCanvas;
     public bool beginPlay = false;
     private void Awake()
     {
@@ -29,5 +30,12 @@ public class MenuManager : MonoBehaviour
         Time.timeScale = 1.0f;
         beginPlay = true;
 
+    }
+    public void YouWin()
+    {
+        WinCanvas.gameObject.SetActive(false);
+        var bh = FindObjectOfType<ChasingBlackHole>();
+        bh.StartAcending(false);
+        Time.timeScale = 0.0f;
     }
 }
