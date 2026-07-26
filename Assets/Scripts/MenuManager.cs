@@ -25,7 +25,7 @@ public class MenuManager : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
 
-        PlayMusic(0, true, 1, 0.4f);
+        PlayMusic(0, true, 1);
     }
     public void Reset()
     {
@@ -36,7 +36,7 @@ public class MenuManager : MonoBehaviour
         MenuCanvas.gameObject.SetActive(false);
         Time.timeScale = 1.0f;
         beginPlay = true;
-        PlayMusic(1, true, 1, 0.4f);
+        PlayMusic(1, true, 1);
 
     }
     public void YouWin()
@@ -45,18 +45,17 @@ public class MenuManager : MonoBehaviour
         var bh = FindObjectOfType<ChasingBlackHole>();
         bh.gameObject.GetComponent<AudioSource>().Stop();
         Destroy(bh);
-        PlayMusic(2, true, 1, 0.4f);
+        PlayMusic(2, true, 1);
         Time.timeScale = 0.0f;
 
 
     }
 
-    public void PlayMusic(int index, bool loop, float pitch, float volume)
+    public void PlayMusic(int index, bool loop, float pitch)
     {
         audioSource.clip = audioClips[index];
         audioSource.loop = loop;
         audioSource.pitch = pitch;
-        audioSource.volume = volume;
         audioSource.ignoreListenerPause = true;
         audioSource.ignoreListenerVolume = true;
         audioSource.Play();
